@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prendi un Numero</title>
+    <script>
+        async function prendiNuovoNumero() {
+            const response = await fetch('/prendi_nuovo_numero', { method: 'POST' });
+            const data = await response.json();
+            alert(data.message);
+        }
+    </script>
+</head>
+<body>
+    <h1>Prendi un Numero</h1>
+    <h3>Sportello: {{ sportello_nome }} {{ sportello_numero }}</h3>
+    <button onclick="prendiNuovoNumero()">Prendi un Numero</button>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <script>
+        async function caricaUtenti() {
+            const response = await fetch('/gestisci_utenti');
+            const utenti = await response.json();
+            let lista = document.getElementById('utenti');
+            lista.innerHTML = "";
+            utenti.forEach(user => {
+                lista.innerHTML += `<li>${user.username} - Admin: ${user.is_admin} 
+                    <br>Sportello: ${user.sportello_nome} (Numero: ${user.sportello_numero})
+                    <button onclick="eliminaUtente('${user.username}')">Elimina</button>
+                    <button onclick="modificaUtente('${user.username}')">Modifica</button>
+                </li>`;
+            });
+        }
+
+        async function eliminaUtente(username) {
+            await fetch('/gestisci_utenti', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "delete", username })
+            });
+            caricaUtenti();
+        }
+
+        async function modificaUtente(username) {
+            let nuovoNome = prompt("Nuovo nome dello sportello:");
+            let nuovoNumero = prompt("Nuovo numero dello sportello:");
+            await fetch('/gestisci_utenti', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "update", username, sportello_nome: nuovoNome, sportello_numero: nuovoNumero })
+            });
+            caricaUtenti();
+        }
+
+        async function aggiungiUtente() {
+            let username = document.getElementById('new_username').value;
+            let password = document.getElementById('new_password').value;
+            let sportello_nome = document.getElementById('sportello_nome').value;
+            let sportello_numero = document.getElementById('sportello_numero').value;
+
+            await fetch('/gestisci_utenti', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "add", username, password, sportello_nome, sportello_numero })
+            });
+            caricaUtenti();
+        }
+
+        window.onload = caricaUtenti;
+    </script>
+</head>
+<body>
+    <h1>Dashboard Admin</h1>
+    <p><a href="/logout">Logout</a></p>
+
+    <h2>Gestione Utenti</h2>
+    <ul id="utenti"></ul>
+
+    <h3>Aggiungi Nuovo Utente</h3>
+    <input type="text" id="new_username" placeholder="Username" required>
+    <input type="password" id="new_password" placeholder="Password" required>
+    <input type="text" id="sportello_nome" placeholder="Nome Sportello" required>
+    <input type="number" id="sportello_numero" placeholder="Numero Sportello" required>
+    <button onclick="aggiungiUtente()">Aggiungi</button>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Eliminacode</title>
+    <script>
+        async function chiamaProssimo() {
+            const response = await fetch('/chiama_prossimo', { method: 'POST' });
+            const data = await response.json();
+            document.getElementById('messaggio').innerText = data.message;
+        }
+
+        async function richiamaStesso() {
+            const response = await fetch('/richiama_stesso', { method: 'POST' });
+            const data = await response.json();
+            document.getElementById('messaggio').innerText = data.message;
+        }
+
+        async function chiamaPrecedente() {
+            const response = await fetch('/chiama_precedente', { method: 'POST' });
+            const data = await response.json();
+            document.getElementById('messaggio').innerText = data.message;
+        }
+
+        async function resettaCoda() {
+            const response = await fetch('/resetta_coda', { method: 'POST' });
+            const data = await response.json();
+            document.getElementById('messaggio').innerText = data.message;
+        }
+    </script>
+</head>
+<body>
+    <h1>Gestione Eliminacode</h1>
+    <button onclick="chiamaProssimo()">Chiama Prossimo</button>
+    <button onclick="richiamaStesso()">Richiama Stesso Numero</button>
+    <button onclick="chiamaPrecedente()">Chiama Numero Precedente</button>
+    <button onclick="resettaCoda()">Resetta Coda</button>
+    <p id="messaggio"></p>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizzazione Eliminacode</title>
+    <script>
+        async function ottieniNumeroAttuale() {
+            const response = await fetch('/ottieni_numero_attuale', { method: 'GET' });
+            const data = await response.json();
+            document.getElementById('numeroAttuale').innerText = data.message;
+        }
+        setInterval(ottieniNumeroAttuale, 3000);
+    </script>
+</head>
+<body>
+    <h1>Numero Attuale</h1>
+    <h2 id="numeroAttuale">In attesa di chiamata...</h2>
+    <h3>Reparto: {{ current_user.sportello_nome }} sportello: {{ current_user.sportello_numero }}</h3>
+</body>
+</html>
