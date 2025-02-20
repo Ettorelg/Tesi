@@ -16,7 +16,7 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 # Configurazione database SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///eliminacode.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://eliminacode_db_user:BDXt3W0nMf9d8wgpVXuQSrse0r8yJCFE@dpg-curedjl6l47c73cc04ag-a/eliminacode_db'
 db = SQLAlchemy(app)
 
 # Inizializzazione delle code
